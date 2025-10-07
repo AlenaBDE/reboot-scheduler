@@ -1,0 +1,102 @@
+.task-list-modal {
+  .task-list-header {
+    margin-bottom: 8px;
+
+    .date-info {
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.85);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      [nz-icon] {
+        color: #1890ff;
+      }
+    }
+
+    .tasks-count {
+      font-size: 14px;
+      color: rgba(0, 0, 0, 0.45);
+      margin: 0;
+    }
+  }
+
+  :deep(.ant-list) {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .task-list-item {
+    cursor: pointer;
+    transition: all 0.3s;
+    padding: 12px 16px !important;
+
+    &:hover {
+      background-color: #f5f5f5;
+
+      .arrow-icon {
+        transform: translateX(4px);
+      }
+    }
+
+    .task-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+      .task-main {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex: 1;
+
+        .time-icon {
+          color: #1890ff;
+          font-size: 16px;
+        }
+
+        .time {
+          font-weight: 500;
+          font-size: 15px;
+          color: rgba(0, 0, 0, 0.85);
+          min-width: 50px;
+        }
+
+        .separator {
+          color: rgba(0, 0, 0, 0.25);
+        }
+
+        .server-name {
+          color: rgba(0, 0, 0, 0.65);
+          flex: 1;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+
+      .arrow-icon {
+        color: rgba(0, 0, 0, 0.45);
+        transition: transform 0.3s;
+      }
+    }
+  }
+
+  .modal-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+
+    @media (min-width: 576px) {
+      flex-direction: row;
+
+      button {
+        flex: 1;
+      }
+    }
+  }
+}

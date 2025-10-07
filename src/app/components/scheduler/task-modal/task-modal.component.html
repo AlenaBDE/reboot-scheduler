@@ -1,0 +1,122 @@
+<div class="task-modal">
+  <nz-spin [nzSpinning]="serversResource.isLoading() || submitting()">
+    <form nz-form [formGroup]="form" (ngSubmit)="onSubmit()" nzLayout="vertical">
+      <nz-form-item>
+        <nz-form-label nzRequired>Server</nz-form-label>
+        <nz-form-control nzErrorTip="Please select a server">
+          <nz-select
+            formControlName="serverId"
+            nzPlaceHolder="Select server"
+            nzShowSearch
+            [nzDisabled]="serversResource.isLoading()"
+          >
+            @for (server of serversResource.value() ?? []; track server.id) {
+              <nz-option
+                [nzValue]="server.id"
+                [nzLabel]="server.name + ' (' + server.ipAddress + ')'"
+              >
+                <div class="server-option">
+                  <span class="server-name">{{ server.name }}</span>
+                  <span class="server-ip">{{ server.ipAddress }}</span>
+                  <nz-badge
+                    [nzStatus]="server.status === 'online' ? 'success' : server.status === 'offline' ? 'error' : 'warning'"
+                    [nzText]="server.status"
+                  ></nz-badge>
+                </div>
+              </nz-option>
+            }
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Date</nz-form-label>
+        <nz-form-control nzErrorTip="Please select a date">
+          <nz-date-picker
+            formControlName="date"
+            nzPlaceHolder="Select date"
+            [nzFormat]="'dd.MM.yyyy'"
+            style="width: 100%"
+          ></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Time</nz-form-label>
+        <nz-form-control nzErrorTip="Please specify time">
+          <nz-time-picker
+            formControlName="time"
+            nzPlaceHolder="Select time"
+            [nzFormat]="'HH:mm'"
+            [nzMinuteStep]="15"
+            style="width: 100%"
+          ></nz-time-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+      @if (form.hasError('pastDateTime')) {
+        <nz-alert
+          nzType="error"
+          nzMessage="Cannot schedule a task in the past"
+          nzDescription="Please select a date and time in the future"
+          nzShowIcon
+          style="margin-bottom: 16px"
+        ></nz-alert>
+      }
+
+      @if (isTaskCompleted()) {
+        <nz-alert
+          nzType="info"
+          nzMessage="This task has been completed"
+          nzDescription="Completed tasks cannot be modified or deleted"
+          nzShowIcon
+          style="margin-bottom: 16px"
+        ></nz-alert>
+      }
+
+      <nz-form-item class="form-actions">
+        <div class="button-group">
+          <div class="left-buttons">
+            @if (mode() === 'edit' && !isTaskCompleted()) {
+              <button
+                nz-button
+                nzType="default"
+                nzDanger
+                type="button"
+                nz-popconfirm
+                nzPopconfirmTitle="Are you sure you want to delete this task?"
+                nzPopconfirmPlacement="top"
+                (nzOnConfirm)="onDelete()"
+                [disabled]="submitting()"
+              >
+              <nz-icon nzType="delete" nzTheme="outline"/>
+                Delete
+              </button>
+            }
+          </div>
+          <div class="right-buttons">
+            <button
+              nz-button
+              nzType="default"
+              type="button"
+              (click)="onCancel()"
+              [disabled]="submitting()"
+            >
+              {{ isTaskCompleted() ? 'Close' : 'Cancel' }}
+            </button>
+            @if (!isTaskCompleted()) {
+              <button
+                nz-button
+                nzType="primary"
+                type="submit"
+                [nzLoading]="submitting()"
+              >
+                {{ mode() === 'create' ? 'Create' : 'Update' }}
+              </button>
+            }
+          </div>
+        </div>
+      </nz-form-item>
+    </form>
+  </nz-spin>
+</div>

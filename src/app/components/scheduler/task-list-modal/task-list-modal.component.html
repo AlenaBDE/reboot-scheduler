@@ -1,0 +1,63 @@
+<div class="task-list-modal">
+  <div class="task-list-header">
+    <p class="date-info">
+     <nz-icon nzType="calendar" nzTheme="outline"/>
+      {{ nzModalData.date | date: 'dd MMMM yyyy' : '' : 'en-US' }}
+    </p>
+    <p class="tasks-count">Total tasks: {{ nzModalData.tasks.length }}</p>
+  </div>
+
+  <nz-divider></nz-divider>
+
+  <nz-list [nzDataSource]="nzModalData.tasks" nzBordered>
+    @for (task of nzModalData.tasks; track task.id) {
+      <nz-list-item
+        class="task-list-item"
+        [class.completed]="task.status === 'completed'"
+        (click)="onTaskSelect(task)"
+      >
+        <div class="task-content">
+          <div class="task-main">
+            <nz-icon
+              [nzType]="task.status === 'completed' ? 'check-circle' : 'clock-circle'"
+              nzTheme="outline"
+              class="time-icon"
+              [class.completed-icon]="task.status === 'completed'"
+            />
+            <span class="time">{{ task.time }}</span>
+            <span class="separator">—</span>
+            <span class="server-name">{{ task.serverName }}</span>
+            @if (task.status === 'completed') {
+              <nz-tag nzColor="success">Completed</nz-tag>
+            }
+          </div>
+          @if (task.status !== 'completed') {
+            <nz-icon nzType="right" nzTheme="outline" class="arrow-icon" />
+          }
+        </div>
+      </nz-list-item>
+    }
+  </nz-list>
+
+  <nz-divider></nz-divider>
+
+  <div class="modal-actions">
+    <button
+      nz-button
+      nzType="primary"
+      nzBlock
+      (click)="onCreateNew()"
+    >
+      <nz-icon nzType="plus" nzTheme="outline"/>
+      Add Another Task
+    </button>
+    <button
+      nz-button
+      nzType="default"
+      nzBlock
+      (click)="onCancel()"
+    >
+      Close
+    </button>
+  </div>
+</div>

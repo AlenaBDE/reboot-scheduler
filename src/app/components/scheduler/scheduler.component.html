@@ -1,0 +1,25 @@
+<div class="scheduler-container">
+  <nz-calendar
+    [(ngModel)]="selectedDate"
+    [nzFullscreen]="true"
+    (click)="onCalendarClick($event)"
+  >
+    <ul *nzDateCell="let date" class="tasks">
+      @for (task of getTasksForDate(date); track task.id; let index = $index) {
+        @if (index < 2) {
+          <li (click)="onTaskClick($event, task)" [class.completed]="task.status === 'completed'">
+            <nz-badge
+              [nzStatus]="task.status === 'completed' ? 'success' : 'processing'"
+              [nzText]="task.serverName + ' - ' + task.time">
+            </nz-badge>
+          </li>
+        }
+      }
+      @if (getTasksForDate(date).length > 2) {
+        <li class="more-tasks">
+          <nz-badge [nzStatus]="'default'" [nzText]="(getTasksForDate(date).length - 2) + ' more task(s)'"></nz-badge>
+        </li>
+      }
+    </ul>
+  </nz-calendar>
+</div>

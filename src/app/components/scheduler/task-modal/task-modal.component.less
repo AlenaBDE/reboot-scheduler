@@ -1,0 +1,66 @@
+.task-modal {
+  padding: 8px 0;
+
+  .server-option {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .server-name {
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.85);
+    }
+
+    .server-ip {
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.45);
+    }
+  }
+
+  .form-actions {
+    margin-top: 24px;
+    margin-bottom: 0;
+
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      gap: 8px;
+
+      @media (max-width: 576px) {
+        flex-direction: column;
+
+        .left-buttons,
+        .right-buttons {
+          width: 100%;
+        }
+      }
+
+      .left-buttons,
+      .right-buttons {
+        display: flex;
+        gap: 8px;
+
+        button {
+          @media (max-width: 576px) {
+            flex: 1;
+          }
+        }
+      }
+
+      .left-buttons {
+        flex: 0;
+      }
+
+      .right-buttons {
+        flex: 1;
+        justify-content: flex-end;
+
+        @media (max-width: 576px) {
+          justify-content: stretch;
+        }
+      }
+    }
+  }
+}
